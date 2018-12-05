@@ -12,5 +12,7 @@ class DatabaseSeeder extends Seeder
     public function run()
     {
         $this->call(FirstUserTableSeeder::class);
+        $this->call(AddFakeCompanies::class);
+        $this->call(FirstUserTableSeeder::class);
     }
 }

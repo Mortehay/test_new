@@ -3,6 +3,9 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Http\Requests;
+use App\Employees;
+use App\Http\Resources\Employee as EmployeeResource;
 
 class EmployeesController extends Controller
 {
@@ -11,9 +14,15 @@ class EmployeesController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function companyEmployees($id)
     {
-        //
+        return view('employees');
+    }
+    public function index($id)
+    {
+        $employees = Employees::where('company_id', '=' ,$id)->orderBy('created_at','desc')->paginate(5);
+        // returnn collection of employees as a resource
+        return  EmployeeResource::collection($employees);
     }
 
     /**
@@ -34,7 +43,16 @@ class EmployeesController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $employee = $request->isMethod('put') ? Employees::findOrFail($request->employee_id) : new Employees;
+        $employee->id = $request->input('employee_id');
+        $employee->first_name = $request->input('first_name');
+        $employee->last_name = $request->input('last_name');
+        $employee->company_id = $request->input('company_id');
+        $employee->email = $request->input('email');
+        $employee->phone = $request->input('phone');
+        if($employee->save()){
+            return  new EmployeeResource($employee);
+        }
     }
 
     /**
@@ -45,7 +63,10 @@ class EmployeesController extends Controller
      */
     public function show($id)
     {
-        //
+        //get a single employee
+        $employee = Employees::findOrFail($id);
+        // return a single employee as resource
+        return new EmployeeResource($employee);
     }
 
     /**
@@ -79,6 +100,10 @@ class EmployeesController extends Controller
      */
     public function destroy($id)
     {
-        //
+        //destroy a single employee
+        $employee = Employees::findOrFail($id);
+        if($employee->delete()){
+            return new EmployeeResource($employee);
+        }
     }
 }

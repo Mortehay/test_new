@@ -16,9 +16,9 @@
 
                     You are logged in!
                     <div id="app">
-                        <companies-list>
+                        <employees-list>
 
-                        </companies-list>
+                        </employees-list>
                     </div>
                 </div>
             </div>

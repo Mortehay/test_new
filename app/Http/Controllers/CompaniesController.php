@@ -3,6 +3,9 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Http\Requests;
+use App\Companies;
+use App\Http\Resources\Company as CompanyResource;
 
 class CompaniesController extends Controller
 {
@@ -13,7 +16,9 @@ class CompaniesController extends Controller
      */
     public function index()
     {
-        //
+        $companies = Companies::orderBy('created_at','desc')->paginate(5);
+        // returnn collection of companies as a resource
+        return  CompanyResource::collection($companies);
     }
 
     /**
@@ -34,7 +39,13 @@ class CompaniesController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $company = $request->isMethod('put') ? Companies::findOrFail($request->company_id) : new Companies;
+        $company->id = $request->input('company_id');
+        $company->name = $request->input('name');
+        $company->logo = $request->input('logo');
+        if($company->save()){
+            return  new CompanyResource($company);
+        }
     }
 
     /**
@@ -45,7 +56,10 @@ class CompaniesController extends Controller
      */
     public function show($id)
     {
-        //
+        //get a single company
+        $company = Companies::findOrFail($id);
+        // return a single company as resource
+        return new CompanyResource($company);
     }
 
     /**
@@ -79,6 +93,10 @@ class CompaniesController extends Controller
      */
     public function destroy($id)
     {
-        //
+        //destroy a single company
+        $company = Companies::findOrFail($id);
+        if($company->delete()){
+            return new CompanyResource($company);
+        }
     }
 }
