@@ -14343,20 +14343,16 @@ module.exports = __webpack_require__(56);
 
 /***/ }),
 /* 15 */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
+/***/ (function(module, exports, __webpack_require__) {
 
 /**
  * First we will load all of this project's JavaScript dependencies which
  * includes Vue and other libraries. It is a great starting point when
  * building robust, powerful web applications using Vue and Laravel.
  */
-
 __webpack_require__(16);
 
 window.Vue = __webpack_require__(39);
-
 /**
  * The following block of code may be used to automatically register your
  * Vue components. It will recursively scan this directory for the Vue
@@ -14367,8 +14363,7 @@ window.Vue = __webpack_require__(39);
 
 Vue.component('example-component', __webpack_require__(42));
 Vue.component('companies-list', __webpack_require__(45));
-Vue.component('employees-list', __webpack_require__(51));
-// const files = require.context('./', true, /\.vue$/i)
+Vue.component('employees-list', __webpack_require__(51)); // const files = require.context('./', true, /\.vue$/i)
 // files.keys().map(key => Vue.component(key.split('/').pop().split('.')[0], files(key)))
 
 /**
@@ -14385,9 +14380,7 @@ var app = new Vue({
 /* 16 */
 /***/ (function(module, exports, __webpack_require__) {
 
-
 window._ = __webpack_require__(17);
-
 /**
  * We'll load jQuery and the Bootstrap jQuery plugin which provides support
  * for JavaScript based Bootstrap features such as modals and tabs. This
@@ -14400,17 +14393,15 @@ try {
 
   __webpack_require__(19);
 } catch (e) {}
-
 /**
  * We'll load the axios HTTP library which allows us to easily issue requests
  * to our Laravel back-end. This library automatically handles sending the
  * CSRF token as a header based on the value of the "XSRF" token cookie.
  */
 
+
 window.axios = __webpack_require__(20);
-
 window.axios.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest';
-
 /**
  * Next we will register the CSRF Token as a common header with Axios so that
  * all outgoing HTTP requests automatically have it attached. This is just
@@ -14424,17 +14415,13 @@ if (token) {
 } else {
   console.error('CSRF token not found: https://laravel.com/docs/csrf#csrf-x-csrf-token');
 }
-
 /**
  * Echo exposes an expressive API for subscribing to channels and listening
  * for events that are broadcast by Laravel. Echo and event broadcasting
  * allows your team to easily build robust real-time web applications.
  */
-
 // import Echo from 'laravel-echo'
-
 // window.Pusher = require('pusher-js');
-
 // window.Echo = new Echo({
 //     broadcaster: 'pusher',
 //     key: process.env.MIX_PUSHER_APP_KEY,
@@ -47721,11 +47708,10 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
-
 /* harmony default export */ __webpack_exports__["default"] = ({
-    mounted: function mounted() {
-        console.log('Component mounted.');
-    }
+  mounted: function mounted() {
+    console.log('Component mounted.');
+  }
 });
 
 /***/ }),
@@ -47857,7 +47843,7 @@ exports = module.exports = __webpack_require__(12)(false);
 
 
 // module
-exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n", ""]);
+exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n", ""]);
 
 // exports
 
@@ -47938,125 +47924,145 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
-
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
-    name: "companies",
-    data: function data() {
-        return {
-            companies: [],
-            company: {
-                id: '',
-                name: '',
-                logo: ''
-            },
-            company_id: '',
-            pagination: {},
-            edit: false
-        };
+  name: "companies",
+  data: function data() {
+    return {
+      companies: [],
+      company: {
+        id: '',
+        name: '',
+        logo: '',
+        image: ''
+      },
+      company_id: '',
+      pagination: {},
+      edit: false
+    };
+  },
+  created: function created() {
+    this.fetchCompanies();
+  },
+  methods: {
+    logoChanged: function logoChanged(e) {
+      var _this = this;
+
+      console.log(e.target.files[0]);
+      var fileReader = new FileReader();
+      fileReader.readAsDataURL(e.target.files[0]);
+
+      fileReader.onload = function (e) {
+        _this.company.image = e.target.result;
+      };
+
+      console.log(this.company);
     },
-    created: function created() {
-        this.fetchCompanies();
+    fetchCompanies: function fetchCompanies(page_url) {
+      var _this2 = this;
+
+      var vm = this;
+      this.company.image_src = this.company.logo;
+      page_url = page_url || '/api/companies';
+      fetch(page_url).then(function (res) {
+        return res.json();
+      }).then(function (res) {
+        ///console.log(res.data);
+        _this2.companies = res.data;
+        vm.makePagination(res.meta, res.links);
+      }).catch(function (err) {
+        return console.log(err);
+      });
     },
+    makePagination: function makePagination(meta, links) {
+      var pagination = {
+        current_page: meta.current_page,
+        last_page: meta.last_page,
+        next_page_url: links.next,
+        prev_page_url: links.prev
+      };
+      console.log(pagination);
+      this.pagination = pagination;
+    },
+    deleteCompany: function deleteCompany(id) {
+      var _this3 = this;
 
-    methods: {
-        fetchCompanies: function fetchCompanies(page_url) {
-            var _this = this;
+      if (confirm('are you sure?')) {
+        fetch("api/company/".concat(id), {
+          method: 'delete'
+        }).then(function (res) {
+          return res.json();
+        }).then(function (data) {
+          alert('company removed');
 
-            var vm = this;
-            page_url = page_url || '/api/companies';
-            fetch(page_url).then(function (res) {
-                return res.json();
-            }).then(function (res) {
-                ///console.log(res.data);
-                _this.companies = res.data;
-                vm.makePagination(res.meta, res.links);
-            }).catch(function (err) {
-                return console.log(err);
-            });
-        },
-        makePagination: function makePagination(meta, links) {
-            var pagination = {
-                current_page: meta.current_page,
-                last_page: meta.last_page,
-                next_page_url: links.next,
-                prev_page_url: links.prev
-            };
-            console.log(pagination);
-            this.pagination = pagination;
-        },
-        deleteCompany: function deleteCompany(id) {
-            var _this2 = this;
+          _this3.fetchCompanies();
+        }).catch(function (err) {
+          return console.log(err);
+        });
+      }
+    },
+    addCompany: function addCompany() {
+      var _this4 = this;
 
-            if (confirm('are you sure?')) {
-                fetch('api/company/' + id, { method: 'delete' }).then(function (res) {
-                    return res.json();
-                }).then(function (data) {
-                    alert('company removed');
-                    _this2.fetchCompanies();
-                }).catch(function (err) {
-                    return console.log(err);
-                });
-            }
-        },
-        addCompany: function addCompany() {
-            var _this3 = this;
+      console.log(this.edit);
 
-            console.log(this.edit);
+      if (this.edit === false) {
+        //add
+        fetch('api/company', {
+          method: 'post',
+          body: JSON.stringify(this.company),
+          headers: {
+            'content-type': 'application/json'
+          }
+        }).then(function (res) {
+          return res.json();
+        }).then(function (data) {
+          _this4.company.name = '';
+          _this4.company.logo = '';
+          alert('company added');
 
-            if (this.edit === false) {
-                //add
-                fetch('api/company', {
-                    method: 'post',
-                    body: JSON.stringify(this.company),
-                    headers: {
-                        'content-type': 'application/json'
-                    }
-                }).then(function (res) {
-                    return res.json();
-                }).then(function (data) {
-                    _this3.company.name = '';
-                    _this3.company.logo = '';
-                    alert('company added');
-                    _this3.fetchCompanies();
-                }).catch(function (err) {
-                    return console.log(err);
-                });
-            } else {
-                //update
-                fetch('api/company', {
-                    method: 'put',
-                    body: JSON.stringify(this.company),
-                    headers: {
-                        'content-type': 'application/json'
-                    }
-                }).then(function (res) {
-                    return res.json();
-                }).then(function (data) {
-                    _this3.edit = false;
-                    _this3.company = {
-                        id: '',
-                        name: '',
-                        logo: ''
-                    };
-                    alert('company updated');
-                    _this3.fetchCompanies();
-                }).catch(function (err) {
-                    return console.log(err);
-                });
-            }
-        },
-        editCompany: function editCompany(company) {
-            this.edit = true;
-            this.company.id = company.id;
-            this.company.company_id = company.id;
-            this.company.name = company.name;
-            this.company.logo = company.logo;
-        },
-        goToEmployees: function goToEmployees(company) {
-            //this.$route.push({ path: `/companies/${company.id}/employees` }) // -> /companies/1/employees
-            window.location.href = '/companies/' + company.id + '/employees';
-        }
+          _this4.fetchCompanies();
+        }).catch(function (err) {
+          return console.log(err);
+        });
+      } else {
+        //update
+        fetch('api/company', {
+          method: 'put',
+          body: JSON.stringify(this.company),
+          headers: {
+            'content-type': 'application/json'
+          }
+        }).then(function (res) {
+          return res.json();
+        }).then(function (data) {
+          _this4.edit = false;
+          _this4.company = {
+            id: '',
+            name: '',
+            logo: ''
+          };
+          alert('company updated');
+
+          _this4.fetchCompanies();
+        }).catch(function (err) {
+          return console.log(err);
+        });
+      }
+    },
+    editCompany: function editCompany(company) {
+      this.edit = true;
+      this.company.id = company.id;
+      this.company.company_id = company.id;
+      this.company.name = company.name;
+      this.company.logo = company.logo;
+    },
+    goToEmployees: function goToEmployees(company) {
+      //this.$route.push({ path: `/companies/${company.id}/employees` }) // -> /companies/1/employees
+      window.location.href = "/companies/".concat(company.id, "/employees");
     }
+  }
 });
 
 /***/ }),
@@ -48129,6 +48135,12 @@ var render = function() {
                   _vm.$set(_vm.company, "logo", $event.target.value)
                 }
               }
+            }),
+            _vm._v(" "),
+            _c("input", {
+              staticClass: "btn btn-light btn-block",
+              attrs: { type: "file" },
+              on: { change: _vm.logoChanged }
             })
           ]),
           _vm._v(" "),
@@ -48215,6 +48227,11 @@ var render = function() {
           [
             _c("h3", [_vm._v(_vm._s(company.name))]),
             _vm._v(" "),
+            _c("img", {
+              staticStyle: { width: "100px" },
+              attrs: { src: "/logo/" + company.logo }
+            }),
+            _vm._v(" "),
             _c("p", [_vm._v(_vm._s(company.logo))]),
             _vm._v(" "),
             _c("hr"),
@@ -48229,7 +48246,7 @@ var render = function() {
                   }
                 }
               },
-              [_vm._v("Employee")]
+              [_vm._v("Employees")]
             ),
             _vm._v(" "),
             _c(
@@ -48360,7 +48377,7 @@ exports = module.exports = __webpack_require__(12)(false);
 
 
 // module
-exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n", ""]);
+exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n", ""]);
 
 // exports
 
@@ -48422,142 +48439,177 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
-
+//
+//
+//
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
-    name: "employees",
-    data: function data() {
-        return {
-            employees: [],
-            employee: {
-                id: '',
-                first_name: '',
-                last_name: '',
-                company_id: '',
-                email: '',
-                phone: ''
-            },
-            employee_id: '',
-            pagination: {},
-            edit: false
-        };
+  name: "employees",
+  data: function data() {
+    return {
+      employees: [],
+      errors: [],
+      employee: {
+        id: '',
+        first_name: '',
+        last_name: '',
+        company_id: '',
+        email: '',
+        phone: ''
+      },
+      employee_id: '',
+      pagination: {},
+      edit: false
+    };
+  },
+  created: function created() {
+    this.fetchEmployees();
+  },
+  methods: {
+    fetchEmployees: function fetchEmployees(page_url) {
+      var _this = this;
+
+      var vm = this;
+      var id = window.location.pathname.split('/')[2];
+      this.employee.company_id = id;
+      page_url = page_url || "/api/employees/".concat(id);
+      fetch(page_url).then(function (res) {
+        return res.json();
+      }).then(function (res) {
+        ///console.log(res.data);
+        _this.employees = res.data;
+        vm.makePagination(res.meta, res.links);
+      }).catch(function (err) {
+        return console.log(err);
+      });
     },
-    created: function created() {
-
-        this.fetchEmployees();
+    makePagination: function makePagination(meta, links) {
+      var pagination = {
+        current_page: meta.current_page,
+        last_page: meta.last_page,
+        next_page_url: links.next,
+        prev_page_url: links.prev
+      };
+      console.log(pagination);
+      this.pagination = pagination;
     },
+    deleteEmployee: function deleteEmployee(id) {
+      var _this2 = this;
 
-    methods: {
-        fetchEmployees: function fetchEmployees(page_url) {
-            var _this = this;
+      if (confirm('are you sure?')) {
+        fetch("/api/employee/".concat(id), {
+          method: 'delete'
+        }).then(function (res) {
+          return res.json();
+        }).then(function (data) {
+          alert('employee removed');
 
-            var vm = this;
+          _this2.fetchEmployees();
+        }).catch(function (err) {
+          return console.log(err);
+        });
+      }
+    },
+    addEmployee: function addEmployee() {
+      var _this3 = this;
 
-            var id = window.location.pathname.split('/')[2];
-            this.employee.company_id = id;
-            page_url = page_url || '/api/employees/' + id;
-            fetch(page_url).then(function (res) {
-                return res.json();
-            }).then(function (res) {
-                ///console.log(res.data);
-                _this.employees = res.data;
-                vm.makePagination(res.meta, res.links);
-            }).catch(function (err) {
-                return console.log(err);
-            });
-        },
-        makePagination: function makePagination(meta, links) {
-            var pagination = {
-                current_page: meta.current_page,
-                last_page: meta.last_page,
-                next_page_url: links.next,
-                prev_page_url: links.prev
+      console.log(this.edit);
+
+      if (this.checkForm(event)) {
+        if (this.edit === false) {
+          //add
+          fetch('/api/employee', {
+            method: 'post',
+            body: JSON.stringify(this.employee),
+            headers: {
+              'content-type': 'application/json'
+            }
+          }).then(function (res) {
+            return res.json();
+          }).then(function (data) {
+            _this3.employee.first_name = '';
+            _this3.employee.last_name = '';
+            _this3.employee.company_id = '';
+            _this3.employee.email = '';
+            _this3.employee.phone = '';
+            alert('employee added');
+
+            _this3.fetchEmployees();
+          }).catch(function (err) {
+            return console.log(err);
+          });
+        } else {
+          //update
+          console.log(JSON.stringify(this.employee));
+          fetch('/api/employee', {
+            method: 'put',
+            body: JSON.stringify(this.employee),
+            headers: {
+              'content-type': 'application/json'
+            }
+          }).then(function (res) {
+            return res.json();
+          }).then(function (data) {
+            _this3.edit = false;
+            _this3.employee = {
+              id: '',
+              first_name: '',
+              last_name: '',
+              company_id: '',
+              email: '',
+              phone: ''
             };
-            console.log(pagination);
-            this.pagination = pagination;
-        },
-        deleteEmployee: function deleteEmployee(id) {
-            var _this2 = this;
+            alert('employee updated');
 
-            if (confirm('are you sure?')) {
-                fetch('/api/employee/' + id, { method: 'delete' }).then(function (res) {
-                    return res.json();
-                }).then(function (data) {
-                    alert('employee removed');
-                    _this2.fetchEmployees();
-                }).catch(function (err) {
-                    return console.log(err);
-                });
-            }
-        },
-        addEmployee: function addEmployee() {
-            var _this3 = this;
-
-            console.log(this.edit);
-
-            if (this.edit === false) {
-                //add
-                fetch('/api/employee', {
-                    method: 'post',
-                    body: JSON.stringify(this.employee),
-                    headers: {
-                        'content-type': 'application/json'
-                    }
-                }).then(function (res) {
-                    return res.json();
-                }).then(function (data) {
-                    _this3.employee.first_name = '';
-                    _this3.employee.last_name = '';
-                    _this3.employee.company_id = '';
-                    _this3.employee.email = '';
-                    _this3.employee.phone = '';
-                    alert('employee added');
-                    _this3.fetchEmployees();
-                }).catch(function (err) {
-                    return console.log(err);
-                });
-            } else {
-                //update
-                console.log(JSON.stringify(this.employee));
-                fetch('/api/employee', {
-                    method: 'put',
-                    body: JSON.stringify(this.employee),
-                    headers: {
-                        'content-type': 'application/json'
-                    }
-                }).then(function (res) {
-                    return res.json();
-                }).then(function (data) {
-                    _this3.edit = false;
-                    _this3.employee = {
-                        id: '',
-                        first_name: '',
-                        last_name: '',
-                        company_id: '',
-                        email: '',
-                        phone: ''
-                    };
-                    alert('employee updated');
-                    _this3.fetchEmployees();
-                }).catch(function (err) {
-                    return console.log(err);
-                });
-            }
-        },
-        editEmployee: function editEmployee(employee) {
-            this.edit = true;
-            this.employee.id = employee.id;
-            this.employee.employee_id = employee.id;
-            this.employee.first_name = employee.first_name;
-            this.employee.last_name = employee.last_name;
-            this.employee.company_id = employee.company_id;
-            this.employee.email = employee.email;
-            this.employee.phone = employee.phone;
-        },
-        goToCompanies: function goToCompanies(employee) {
-
-            window.location.href = '/home';
+            _this3.fetchEmployees();
+          }).catch(function (err) {
+            return console.log(err);
+          });
         }
+      }
+    },
+    editEmployee: function editEmployee(employee) {
+      this.edit = true;
+      this.employee.id = employee.id;
+      this.employee.employee_id = employee.id;
+      this.employee.first_name = employee.first_name;
+      this.employee.last_name = employee.last_name;
+      this.employee.company_id = employee.company_id;
+      this.employee.email = employee.email;
+      this.employee.phone = employee.phone;
+    },
+    checkForm: function checkForm(e) {
+      if (this.employee.first_name != '' && this.employee.last_name != '' && this.employee.last_name != '' && this.employee.email != '' && this.employee.phone != '') return true;
+      this.errors = [];
+      if (this.employee.first_name == '') this.errors.push('First Name Required');
+      if (this.employee.last_name == '') this.errors.push('Last Name Required');
+      if (this.employee.company_id == '') this.errors.push('Company Id Required');
+
+      if (this.employee.email == '') {
+        this.errors.push('Email Required');
+      } else if (!this.validEmail(this.employee.email)) {
+        this.errors.push('You shoul use correct email');
+      }
+
+      console.log('phone', this.employee.phone);
+
+      if (this.employee.phone === '') {
+        this.errors.push('Phone Number Required');
+      } else if (typeof this.employee.phone !== 'number') {
+        this.errors.push('You shoul use correct phone number');
+      }
+
+      return !this.errors.length ? true : false;
+    },
+    goToCompanies: function goToCompanies(employee) {
+      window.location.href = "/home";
+    },
+    validEmail: function validEmail(email) {
+      var re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+      return re.test(email);
     }
+  }
 });
 
 /***/ }),
@@ -48586,6 +48638,19 @@ var render = function() {
       _vm._v(" "),
       _c("h2", [_vm._v("\n        Employees\n    ")]),
       _vm._v(" "),
+      _vm.errors.length
+        ? _c("p", [
+            _c("b", [_vm._v("Please correct the following error(s):")]),
+            _vm._v(" "),
+            _c(
+              "ul",
+              _vm._l(_vm.errors, function(error) {
+                return _c("li", [_vm._v(_vm._s(error))])
+              })
+            )
+          ])
+        : _vm._e(),
+      _vm._v(" "),
       _c(
         "form",
         {
@@ -48593,7 +48658,7 @@ var render = function() {
           on: {
             submit: function($event) {
               $event.preventDefault()
-              return _vm.addEmployee($event)
+              _vm.addEmployee($event)
             }
           }
         },

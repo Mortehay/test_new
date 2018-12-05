@@ -9,6 +9,7 @@
             </div>
             <div class="form-group">
                 <textarea type="text" class="form-control" placeholder="Company Logo" v-model="company.logo"></textarea>
+                <input type="file" class="btn btn-light btn-block" @change="logoChanged"></input>
             </div>
             <button type="submit" class="btn btn-light btn-block">Save</button>
         </form>
@@ -25,9 +26,10 @@
         </nav>
         <div class="card card-body mb-2" v-for="company in companies" v-bind:key="company.id">
             <h3>{{ company.name }}</h3>
+            <img style="width:100px;" :src="'/logo/' +company.logo" >
             <p>{{ company.logo }}</p>
             <hr>
-            <button @click="goToEmployees(company)" class="btn btn-primary mb-2">Employee</button>
+            <button @click="goToEmployees(company)" class="btn btn-primary mb-2">Employees</button>
             <button @click="editCompany(company)" class="btn btn-warning mb-2">edit</button>
             <button @click="deleteCompany(company.id)" class="btn btn-danger">delete</button>
         </div>
@@ -44,7 +46,8 @@
                 company: {
                     id: '',
                     name: '',
-                    logo: ''
+                    logo: '',
+                    image: '',
                 },
                 company_id: '',
                 pagination: {},
@@ -55,8 +58,18 @@
             this.fetchCompanies();
         },
         methods:{
+            logoChanged(e){
+                console.log(e.target.files[0]);
+                let fileReader = new FileReader();
+                fileReader.readAsDataURL(e.target.files[0]);
+                fileReader.onload = (e) => {
+                    this.company.image = e.target.result
+                }
+                console.log(this.company);
+            },
             fetchCompanies(page_url){
                 let vm = this;
+                this.company.image_src = this.company.logo;
                 page_url = page_url || '/api/companies';
                 fetch(page_url)
                     .then(res => res.json())
