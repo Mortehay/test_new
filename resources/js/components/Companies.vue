@@ -4,20 +4,29 @@
             Companies
         </h2>
         <form @submit.prevent="addCompany" class="mb-3">
-            <div class="form-group">
-                <input type="text" class="form-control" placeholder="Company Name" v-model="company.name">
-            </div>
+
+
             <div class="form-group">
                 <!--<textarea type="text" class="form-control" placeholder="Company Logo" v-model="company.logo"></textarea>-->
 
                     <div class="card-body">
                         <div class="row">
-                    <div class="col-md-3" v-if="company.image">
-                        <img :src="company.image" class="img-responsive" height="70" width="90">
-                    </div>
-                    <div class="col-md-6">
-                        <input type="file" class="btn btn-light btn-block" @change="logoChanged"></input>
-                    </div>
+                            <div class="form-group">
+                                <input type="text" class="form-control" placeholder="Company Name" v-model="company.name">
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="form-group">
+                                <input type="text" class="form-control" placeholder="Company Email" v-model="company.email">
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-3" v-if="company.image">
+                                <img :src="company.image" class="img-responsive" height="70" width="90">
+                            </div>
+                            <div class="col-md-6">
+                                <input type="file" class="btn btn-light btn-block" @change="logoChanged"></input>
+                            </div>
                         </div>
                     </div>
             </div>
@@ -37,8 +46,9 @@
         </nav>
         <div class="card card-body mb-2" v-for="company in companies" v-bind:key="company.id">
             <h3>{{ company.name }}</h3>
+            <h4>{{ company.email }}</h4>
             <img style="width:100px;" :src="company.logo" >
-            <p>{{ company.logo }}</p>
+
             <hr>
             <button @click="goToEmployees(company)" class="btn btn-primary mb-2">Employees</button>
             <button @click="editCompany(company)" class="btn btn-warning mb-2">edit</button>
@@ -57,6 +67,7 @@
                 company: {
                     id: '',
                     name: '',
+                    email:'',
                     logo: '',
                     image: '',
                 },
@@ -70,12 +81,17 @@
         },
         methods:{
             logoChanged(e){
-                console.log(e.target.files[0]);
-                let fileReader = new FileReader();
-                fileReader.readAsDataURL(e.target.files[0]);
-                fileReader.onload = (e) => {
-                    this.company.image = e.target.result
+                if(e.target.files[0] !== undefined){
+                    console.log(e.target.files[0]);
+                    let fileReader = new FileReader();
+                    fileReader.readAsDataURL(e.target.files[0]);
+                    fileReader.onload = (e) => {
+                        this.company.image = e.target.result
+                    }
+                } else {
+                    this.company.image = false;
                 }
+
                 console.log(this.company);
             },
             fetchCompanies(page_url){
@@ -128,7 +144,8 @@
                         .then(data =>{
                             this.company.name = '';
                             this.company.logo = '';
-                            this.company.image = ''
+                            this.company.email = '';
+                            this.company.image = '';
                             alert('company added');
                             this.fetchCompanies();
                         })
@@ -148,6 +165,7 @@
                             this.company = {
                                 id: '',
                                 name: '',
+                                email: '',
                                 logo: ''
                             };
                             alert('company updated');
@@ -162,7 +180,10 @@
                 this.company.id = company.id;
                 this.company.company_id = company.id;
                 this.company.name = company.name;
+                this.company.email = company.email;
                 this.company.logo = company.logo;
+                this.company.image = company.logo;
+
 
             },
             goToEmployees(company){

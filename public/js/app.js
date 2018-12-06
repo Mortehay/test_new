@@ -47843,7 +47843,7 @@ exports = module.exports = __webpack_require__(12)(false);
 
 
 // module
-exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n", ""]);
+exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n", ""]);
 
 // exports
 
@@ -47937,6 +47937,16 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   name: "companies",
   data: function data() {
@@ -47945,6 +47955,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
       company: {
         id: '',
         name: '',
+        email: '',
         logo: '',
         image: ''
       },
@@ -47960,13 +47971,17 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
     logoChanged: function logoChanged(e) {
       var _this = this;
 
-      console.log(e.target.files[0]);
-      var fileReader = new FileReader();
-      fileReader.readAsDataURL(e.target.files[0]);
+      if (e.target.files[0] !== undefined) {
+        console.log(e.target.files[0]);
+        var fileReader = new FileReader();
+        fileReader.readAsDataURL(e.target.files[0]);
 
-      fileReader.onload = function (e) {
-        _this.company.image = e.target.result;
-      };
+        fileReader.onload = function (e) {
+          _this.company.image = e.target.result;
+        };
+      } else {
+        this.company.image = false;
+      }
 
       console.log(this.company);
     },
@@ -48031,6 +48046,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         }).then(function (data) {
           _this4.company.name = '';
           _this4.company.logo = '';
+          _this4.company.email = '';
           _this4.company.image = '';
           alert('company added');
 
@@ -48053,6 +48069,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
           _this4.company = {
             id: '',
             name: '',
+            email: '',
             logo: ''
           };
           alert('company updated');
@@ -48068,7 +48085,9 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
       this.company.id = company.id;
       this.company.company_id = company.id;
       this.company.name = company.name;
+      this.company.email = company.email;
       this.company.logo = company.logo;
+      this.company.image = company.logo;
     },
     goToEmployees: function goToEmployees(company) {
       //this.$route.push({ path: `/companies/${company.id}/employees` }) // -> /companies/1/employees
@@ -48103,31 +48122,59 @@ var render = function() {
         },
         [
           _c("div", { staticClass: "form-group" }, [
-            _c("input", {
-              directives: [
-                {
-                  name: "model",
-                  rawName: "v-model",
-                  value: _vm.company.name,
-                  expression: "company.name"
-                }
-              ],
-              staticClass: "form-control",
-              attrs: { type: "text", placeholder: "Company Name" },
-              domProps: { value: _vm.company.name },
-              on: {
-                input: function($event) {
-                  if ($event.target.composing) {
-                    return
-                  }
-                  _vm.$set(_vm.company, "name", $event.target.value)
-                }
-              }
-            })
-          ]),
-          _vm._v(" "),
-          _c("div", { staticClass: "form-group" }, [
             _c("div", { staticClass: "card-body" }, [
+              _c("div", { staticClass: "row" }, [
+                _c("div", { staticClass: "form-group" }, [
+                  _c("input", {
+                    directives: [
+                      {
+                        name: "model",
+                        rawName: "v-model",
+                        value: _vm.company.name,
+                        expression: "company.name"
+                      }
+                    ],
+                    staticClass: "form-control",
+                    attrs: { type: "text", placeholder: "Company Name" },
+                    domProps: { value: _vm.company.name },
+                    on: {
+                      input: function($event) {
+                        if ($event.target.composing) {
+                          return
+                        }
+                        _vm.$set(_vm.company, "name", $event.target.value)
+                      }
+                    }
+                  })
+                ])
+              ]),
+              _vm._v(" "),
+              _c("div", { staticClass: "row" }, [
+                _c("div", { staticClass: "form-group" }, [
+                  _c("input", {
+                    directives: [
+                      {
+                        name: "model",
+                        rawName: "v-model",
+                        value: _vm.company.email,
+                        expression: "company.email"
+                      }
+                    ],
+                    staticClass: "form-control",
+                    attrs: { type: "text", placeholder: "Company Email" },
+                    domProps: { value: _vm.company.email },
+                    on: {
+                      input: function($event) {
+                        if ($event.target.composing) {
+                          return
+                        }
+                        _vm.$set(_vm.company, "email", $event.target.value)
+                      }
+                    }
+                  })
+                ])
+              ]),
+              _vm._v(" "),
               _c("div", { staticClass: "row" }, [
                 _vm.company.image
                   ? _c("div", { staticClass: "col-md-3" }, [
@@ -48236,12 +48283,12 @@ var render = function() {
           [
             _c("h3", [_vm._v(_vm._s(company.name))]),
             _vm._v(" "),
+            _c("h4", [_vm._v(_vm._s(company.email))]),
+            _vm._v(" "),
             _c("img", {
               staticStyle: { width: "100px" },
               attrs: { src: company.logo }
             }),
-            _vm._v(" "),
-            _c("p", [_vm._v(_vm._s(company.logo))]),
             _vm._v(" "),
             _c("hr"),
             _vm._v(" "),

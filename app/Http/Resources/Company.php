@@ -17,7 +17,8 @@ class Company extends JsonResource
         return [
             'id' =>$this->id,
             'name' =>$this->name,
-            'logo' =>$this->logo
+            'logo' =>$this->logo,
+            'email' =>$this->email
         ];
     }
 }

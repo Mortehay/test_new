@@ -47,22 +47,31 @@ class CompaniesController extends Controller
         $company = $request->isMethod('put') ? Companies::findOrFail($request->company_id) : new Companies;
         $company->id = $request->input('company_id');
         $company->name = $request->input('name');
+        $company->email = $request->input('email');
         //$company->logo = $request->input('logo');
 
 
 
 
+        if($request->input('image') && $request->input('image') != $request->input('logo')){
+            $image = $request->input('image');
+            $name = time().'.' . explode('/', explode(':', substr($image, 0, strpos($image, ';')))[1])[1];
 
-        $image = $request->input('image');
-        $name = time().'.' . explode('/', explode(':', substr($image, 0, strpos($image, ';')))[1])[1];
+            Image::make($request->input('image'))->save(public_path('logo'.DIRECTORY_SEPARATOR ).$name);
 
-        Image::make($request->input('image'))->save(public_path('logo'.DIRECTORY_SEPARATOR ).$name);
+            $image= new FileUploads();
+            $image->image_name = $name;
+            $image->save();
 
-        $image= new FileUploads();
-        $image->image_name = $name;
-        $image->save();
+            $company->logo = 'logo'.DIRECTORY_SEPARATOR .$name;
+        } else {
+            if($company->logo != Null || $company->logo != ''){
+                $company->logo = $company->logo;
+            } else {
+                $company->logo = 'logo'.DIRECTORY_SEPARATOR .'tmp.jpg';
+            }
+        }
 
-        $company->logo = 'logo'.DIRECTORY_SEPARATOR .$name;
 
         if($company->save()){
             return  new CompanyResource($company);
