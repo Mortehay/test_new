@@ -9,8 +9,19 @@
             </div>
             <div class="form-group">
                 <textarea type="text" class="form-control" placeholder="Company Logo" v-model="company.logo"></textarea>
-                <input type="file" class="btn btn-light btn-block" @change="logoChanged"></input>
+
+                    <div class="card-body">
+                        <div class="row">
+                    <div class="col-md-3" v-if="company.image">
+                        <img :src="company.image" class="img-responsive" height="70" width="90">
+                    </div>
+                    <div class="col-md-6">
+                        <input type="file" class="btn btn-light btn-block" @change="logoChanged"></input>
+                    </div>
+                        </div>
+                    </div>
             </div>
+
             <button type="submit" class="btn btn-light btn-block">Save</button>
         </form>
         <nav aria-label="Page navigation example">
