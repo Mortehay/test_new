@@ -47843,7 +47843,7 @@ exports = module.exports = __webpack_require__(12)(false);
 
 
 // module
-exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n", ""]);
+exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n", ""]);
 
 // exports
 
@@ -47974,7 +47974,6 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
       var _this2 = this;
 
       var vm = this;
-      this.company.image_src = this.company.logo;
       page_url = page_url || '/api/companies';
       fetch(page_url).then(function (res) {
         return res.json();
@@ -48017,6 +48016,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
       var _this4 = this;
 
       console.log(this.edit);
+      console.log(this.company);
 
       if (this.edit === false) {
         //add
@@ -48031,6 +48031,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         }).then(function (data) {
           _this4.company.name = '';
           _this4.company.logo = '';
+          _this4.company.image = '';
           alert('company added');
 
           _this4.fetchCompanies();
@@ -48126,28 +48127,6 @@ var render = function() {
           ]),
           _vm._v(" "),
           _c("div", { staticClass: "form-group" }, [
-            _c("textarea", {
-              directives: [
-                {
-                  name: "model",
-                  rawName: "v-model",
-                  value: _vm.company.logo,
-                  expression: "company.logo"
-                }
-              ],
-              staticClass: "form-control",
-              attrs: { type: "text", placeholder: "Company Logo" },
-              domProps: { value: _vm.company.logo },
-              on: {
-                input: function($event) {
-                  if ($event.target.composing) {
-                    return
-                  }
-                  _vm.$set(_vm.company, "logo", $event.target.value)
-                }
-              }
-            }),
-            _vm._v(" "),
             _c("div", { staticClass: "card-body" }, [
               _c("div", { staticClass: "row" }, [
                 _vm.company.image
@@ -48259,7 +48238,7 @@ var render = function() {
             _vm._v(" "),
             _c("img", {
               staticStyle: { width: "100px" },
-              attrs: { src: "/logo/" + company.logo }
+              attrs: { src: company.logo }
             }),
             _vm._v(" "),
             _c("p", [_vm._v(_vm._s(company.logo))]),

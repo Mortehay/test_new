@@ -21,4 +21,3 @@ Route::get('/home', 'HomeController@index')->name('home');
 
 Route::get('/companies/{id}/employees', 'EmployeesController@companyEmployees');
 
-Route::post('/image/store', 'ImageController@store');

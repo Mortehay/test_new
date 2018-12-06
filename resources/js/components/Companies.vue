@@ -8,7 +8,7 @@
                 <input type="text" class="form-control" placeholder="Company Name" v-model="company.name">
             </div>
             <div class="form-group">
-                <textarea type="text" class="form-control" placeholder="Company Logo" v-model="company.logo"></textarea>
+                <!--<textarea type="text" class="form-control" placeholder="Company Logo" v-model="company.logo"></textarea>-->
 
                     <div class="card-body">
                         <div class="row">
@@ -37,7 +37,7 @@
         </nav>
         <div class="card card-body mb-2" v-for="company in companies" v-bind:key="company.id">
             <h3>{{ company.name }}</h3>
-            <img style="width:100px;" :src="'/logo/' +company.logo" >
+            <img style="width:100px;" :src="company.logo" >
             <p>{{ company.logo }}</p>
             <hr>
             <button @click="goToEmployees(company)" class="btn btn-primary mb-2">Employees</button>
@@ -80,7 +80,7 @@
             },
             fetchCompanies(page_url){
                 let vm = this;
-                this.company.image_src = this.company.logo;
+
                 page_url = page_url || '/api/companies';
                 fetch(page_url)
                     .then(res => res.json())
@@ -114,7 +114,7 @@
             },
             addCompany(){
                 console.log(this.edit);
-
+                console.log(this.company);
                 if(this.edit === false){
                     //add
                     fetch('api/company',{
@@ -128,6 +128,7 @@
                         .then(data =>{
                             this.company.name = '';
                             this.company.logo = '';
+                            this.company.image = ''
                             alert('company added');
                             this.fetchCompanies();
                         })

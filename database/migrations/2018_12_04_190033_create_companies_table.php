@@ -17,7 +17,8 @@ class CreateCompaniesTable extends Migration
             $table->increments('id');
             $table->string('name', 200)->nullable();
             $table->string('email', 200)->nullable();
-            $table->string('logo', 200)->nullable();
+            //$table->string('logo', 200)->nullable();
+            $table->string('logo', 200)->default('logo\temp.jpg')->nullable();
             $table->timestamps();
         });
     }
