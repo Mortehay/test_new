@@ -14,7 +14,7 @@ class DatabaseSeeder extends Seeder
         $this->call([
             FirstUserTableSeeder::class,
             AddFakeCompanies::class,
-            FirstUserTableSeeder::class
+            AddFakeEmployees::class
         ]);
     }
 }
