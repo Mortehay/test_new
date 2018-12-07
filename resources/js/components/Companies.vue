@@ -12,17 +12,21 @@
                     <div class="card-body">
                         <div class="row">
                             <div class="form-group">
-                                <input type="text" class="form-control" placeholder="Company Name" v-model="company.name">
+                                <span v-if="validationErrors.name && company.name.length == 0" v-model="validationErrors.name" class="alert-danger">{{(validationErrors.name)[0]}}</span>
+                                <input type="text" class="form-control" placeholder="Company Name" v-model="company.name" @change="nameChanged">
                             </div>
                         </div>
                         <div class="row">
                             <div class="form-group">
-                                <input type="text" class="form-control" placeholder="Company Email" v-model="company.email">
+                                <span v-if="validationErrors.email && company.email.length == 0" v-model="validationErrors.email" class="alert-danger">{{(validationErrors.email)[0]}}</span>
+                                <input type="text" class="form-control" placeholder="Company Email" v-model="company.email" @change="emailChanged">
                             </div>
                         </div>
                         <div class="row">
+                            <span v-if="validationErrors.logo && company.logo.length == 0"  v-model="validationErrors.image" class="alert-danger">{{(validationErrors.logo)[0]}}</span>
                             <div class="col-md-3" v-if="company.image">
-                                <img :src="company.image" class="img-responsive" height="70" width="90">
+
+                                <img :src="company.image" class="img-responsive" height="100" width="100">
                             </div>
                             <div class="col-md-6">
                                 <input type="file" class="btn btn-light btn-block" @change="logoChanged"></input>
@@ -44,6 +48,7 @@
                 </li>
             </ul>
         </nav>
+
         <div class="card card-body mb-2" v-for="company in companies" v-bind:key="company.id">
             <h3>{{ company.name }}</h3>
             <h4>{{ company.email }}</h4>
@@ -53,6 +58,7 @@
             <button @click="goToEmployees(company)" class="btn btn-primary mb-2">Employees</button>
             <button @click="editCompany(company)" class="btn btn-warning mb-2">edit</button>
             <button @click="deleteCompany(company.id)" class="btn btn-danger">delete</button>
+
         </div>
     </div>
 
@@ -73,21 +79,31 @@
                 },
                 company_id: '',
                 pagination: {},
-                edit: false
+                edit: false,
+                validationErrors:[],
+
             };
         },
         created() {
             this.fetchCompanies();
         },
         methods:{
+            nameChanged(e){
+                if(this.validationErrors.name !== undefined) this.validationErrors.name = false;
+            },
+            emailChanged(e){
+                if(this.validationErrors.email !== undefined) this.validationErrors.email = false;
+            },
             logoChanged(e){
                 if(e.target.files[0] !== undefined){
+                    if(this.validationErrors.logo != undefined) this.validationErrors.logo = false;
                     console.log(e.target.files[0]);
                     let fileReader = new FileReader();
                     fileReader.readAsDataURL(e.target.files[0]);
                     fileReader.onload = (e) => {
                         this.company.image = e.target.result
                     }
+                    this.company.logo = true;
                 } else {
                     this.company.image = false;
                 }
@@ -101,7 +117,7 @@
                 fetch(page_url)
                     .then(res => res.json())
                     .then(res =>{
-                        ///console.log(res.data);
+                        console.log(res.data);
                         this.companies = res.data;
                         vm.makePagination(res.meta, res.links);
                     })
@@ -133,23 +149,37 @@
                 console.log(this.company);
                 if(this.edit === false){
                     //add
-                    fetch('api/company',{
+                    axios('api/company',{
                         method: 'post',
                         body : JSON.stringify(this.company),
                         headers:{
+                            'Accept': 'application/json',
                             'content-type':'application/json'
-                        }
+                        },
+                        data:this.company
                     })
-                        .then(res => res.json())
-                        .then(data =>{
+
+                        .then(function(response){
+                            console.log(response)
                             this.company.name = '';
                             this.company.logo = '';
                             this.company.email = '';
                             this.company.image = '';
                             alert('company added');
                             this.fetchCompanies();
+
                         })
-                        .catch(err => console.log(err));
+
+
+                        .catch(err => {
+                                if(err.response !== undefined && err.response.status == 422){
+                                    this.validationErrors = err.response.data.errors;
+                                }
+                                console.log(err);
+                                console.log(this.validationErrors);
+                            }
+
+                        );
                 } else {
                     //update
                     fetch('api/company',{
@@ -189,6 +219,9 @@
             goToEmployees(company){
                 //this.$route.push({ path: `/companies/${company.id}/employees` }) // -> /companies/1/employees
                 window.location.href = `/companies/${company.id}/employees`;
+            },
+            forceRerender() {
+                this.componentKey += 1;
             }
         }
     }

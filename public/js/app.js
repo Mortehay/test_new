@@ -47843,7 +47843,7 @@ exports = module.exports = __webpack_require__(12)(false);
 
 
 // module
-exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n", ""]);
+exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n", ""]);
 
 // exports
 
@@ -47947,6 +47947,12 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
+//
+//
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   name: "companies",
   data: function data() {
@@ -47961,17 +47967,25 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
       },
       company_id: '',
       pagination: {},
-      edit: false
+      edit: false,
+      validationErrors: []
     };
   },
   created: function created() {
     this.fetchCompanies();
   },
   methods: {
+    nameChanged: function nameChanged(e) {
+      if (this.validationErrors.name !== undefined) this.validationErrors.name = false;
+    },
+    emailChanged: function emailChanged(e) {
+      if (this.validationErrors.email !== undefined) this.validationErrors.email = false;
+    },
     logoChanged: function logoChanged(e) {
       var _this = this;
 
       if (e.target.files[0] !== undefined) {
+        if (this.validationErrors.logo != undefined) this.validationErrors.logo = false;
         console.log(e.target.files[0]);
         var fileReader = new FileReader();
         fileReader.readAsDataURL(e.target.files[0]);
@@ -47979,6 +47993,8 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         fileReader.onload = function (e) {
           _this.company.image = e.target.result;
         };
+
+        this.company.logo = true;
       } else {
         this.company.image = false;
       }
@@ -47993,7 +48009,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
       fetch(page_url).then(function (res) {
         return res.json();
       }).then(function (res) {
-        ///console.log(res.data);
+        console.log(res.data);
         _this2.companies = res.data;
         vm.makePagination(res.meta, res.links);
       }).catch(function (err) {
@@ -48035,24 +48051,29 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
       if (this.edit === false) {
         //add
-        fetch('api/company', {
+        axios('api/company', {
           method: 'post',
           body: JSON.stringify(this.company),
           headers: {
+            'Accept': 'application/json',
             'content-type': 'application/json'
-          }
-        }).then(function (res) {
-          return res.json();
-        }).then(function (data) {
-          _this4.company.name = '';
-          _this4.company.logo = '';
-          _this4.company.email = '';
-          _this4.company.image = '';
+          },
+          data: this.company
+        }).then(function (response) {
+          console.log(response);
+          this.company.name = '';
+          this.company.logo = '';
+          this.company.email = '';
+          this.company.image = '';
           alert('company added');
-
-          _this4.fetchCompanies();
+          this.fetchCompanies();
         }).catch(function (err) {
-          return console.log(err);
+          if (err.response !== undefined && err.response.status == 422) {
+            _this4.validationErrors = err.response.data.errors;
+          }
+
+          console.log(err);
+          console.log(_this4.validationErrors);
         });
       } else {
         //update
@@ -48092,6 +48113,9 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
     goToEmployees: function goToEmployees(company) {
       //this.$route.push({ path: `/companies/${company.id}/employees` }) // -> /companies/1/employees
       window.location.href = "/companies/".concat(company.id, "/employees");
+    },
+    forceRerender: function forceRerender() {
+      this.componentKey += 1;
     }
   }
 });
@@ -48125,6 +48149,23 @@ var render = function() {
             _c("div", { staticClass: "card-body" }, [
               _c("div", { staticClass: "row" }, [
                 _c("div", { staticClass: "form-group" }, [
+                  _vm.validationErrors.name && _vm.company.name.length == 0
+                    ? _c(
+                        "span",
+                        {
+                          staticClass: "alert-danger",
+                          model: {
+                            value: _vm.validationErrors.name,
+                            callback: function($$v) {
+                              _vm.$set(_vm.validationErrors, "name", $$v)
+                            },
+                            expression: "validationErrors.name"
+                          }
+                        },
+                        [_vm._v(_vm._s(_vm.validationErrors.name[0]))]
+                      )
+                    : _vm._e(),
+                  _vm._v(" "),
                   _c("input", {
                     directives: [
                       {
@@ -48138,6 +48179,7 @@ var render = function() {
                     attrs: { type: "text", placeholder: "Company Name" },
                     domProps: { value: _vm.company.name },
                     on: {
+                      change: _vm.nameChanged,
                       input: function($event) {
                         if ($event.target.composing) {
                           return
@@ -48151,6 +48193,23 @@ var render = function() {
               _vm._v(" "),
               _c("div", { staticClass: "row" }, [
                 _c("div", { staticClass: "form-group" }, [
+                  _vm.validationErrors.email && _vm.company.email.length == 0
+                    ? _c(
+                        "span",
+                        {
+                          staticClass: "alert-danger",
+                          model: {
+                            value: _vm.validationErrors.email,
+                            callback: function($$v) {
+                              _vm.$set(_vm.validationErrors, "email", $$v)
+                            },
+                            expression: "validationErrors.email"
+                          }
+                        },
+                        [_vm._v(_vm._s(_vm.validationErrors.email[0]))]
+                      )
+                    : _vm._e(),
+                  _vm._v(" "),
                   _c("input", {
                     directives: [
                       {
@@ -48164,6 +48223,7 @@ var render = function() {
                     attrs: { type: "text", placeholder: "Company Email" },
                     domProps: { value: _vm.company.email },
                     on: {
+                      change: _vm.emailChanged,
                       input: function($event) {
                         if ($event.target.composing) {
                           return
@@ -48176,14 +48236,31 @@ var render = function() {
               ]),
               _vm._v(" "),
               _c("div", { staticClass: "row" }, [
+                _vm.validationErrors.logo && _vm.company.logo.length == 0
+                  ? _c(
+                      "span",
+                      {
+                        staticClass: "alert-danger",
+                        model: {
+                          value: _vm.validationErrors.image,
+                          callback: function($$v) {
+                            _vm.$set(_vm.validationErrors, "image", $$v)
+                          },
+                          expression: "validationErrors.image"
+                        }
+                      },
+                      [_vm._v(_vm._s(_vm.validationErrors.logo[0]))]
+                    )
+                  : _vm._e(),
+                _vm._v(" "),
                 _vm.company.image
                   ? _c("div", { staticClass: "col-md-3" }, [
                       _c("img", {
                         staticClass: "img-responsive",
                         attrs: {
                           src: _vm.company.image,
-                          height: "70",
-                          width: "90"
+                          height: "100",
+                          width: "100"
                         }
                       })
                     ])

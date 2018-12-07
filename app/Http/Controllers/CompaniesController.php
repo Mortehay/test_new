@@ -43,6 +43,14 @@ class CompaniesController extends Controller
      */
     public function store(Request $request)
     {
+        //print_r($request);
+        $validation = $this->validate($request, [
+            'name' => 'required',
+            'email' => 'required|email',
+            'logo' => 'required',
+            //'image' => 'required',
+        ]);
+
         //print_r($request->input('image'));
         $company = $request->isMethod('put') ? Companies::findOrFail($request->company_id) : new Companies;
         $company->id = $request->input('company_id');
@@ -53,7 +61,7 @@ class CompaniesController extends Controller
 
 
 
-        if($request->input('image') && $request->input('image') != $request->input('logo')){
+        if($request->input('image') &&  $request->input('logo')){
             $image = $request->input('image');
             $name = time().'.' . explode('/', explode(':', substr($image, 0, strpos($image, ';')))[1])[1];
 
@@ -65,10 +73,10 @@ class CompaniesController extends Controller
 
             $company->logo = 'logo'.DIRECTORY_SEPARATOR .$name;
         } else {
-            if($company->logo != Null || $company->logo != ''){
+            if($company->logo == false ){
                 $company->logo = $company->logo;
             } else {
-                $company->logo = 'logo'.DIRECTORY_SEPARATOR .'tmp.jpg';
+                $company->logo = 'logo'.DIRECTORY_SEPARATOR .'temp.jpg';
             }
         }
 
@@ -77,6 +85,15 @@ class CompaniesController extends Controller
             return  new CompanyResource($company);
         }
 
+    }
+
+    public function withValidator($validator)
+    {
+        $validator->after(function ($validator) {
+            if ($this->somethingElseIsInvalid()) {
+                $validator->errors()->add('field', 'Something is wrong with this field!');
+            }
+        });
     }
 
     /**
