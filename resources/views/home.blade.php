@@ -13,13 +13,15 @@
                             {{ session('status') }}
                         </div>
                     @endif
+                        <hosts-list>
 
+                        </hosts-list>
                     You are logged in!
-                    <div id="app">
+
                         <companies-list>
 
                         </companies-list>
-                    </div>
+
                 </div>
             </div>
         </div>

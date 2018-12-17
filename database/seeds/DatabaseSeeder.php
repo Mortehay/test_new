@@ -14,7 +14,9 @@ class DatabaseSeeder extends Seeder
         $this->call([
             FirstUserTableSeeder::class,
             AddFakeCompanies::class,
-            AddFakeEmployees::class
+            AddFakeEmployees::class,
+            AddFakeHosts::class,
+            AdditionalFakeDomains::class
         ]);
     }
 }

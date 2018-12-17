@@ -46,3 +46,33 @@ Route::put('employee','EmployeesController@store');
 
 //delete employee
 Route::delete('employee/{id}', 'EmployeesController@destroy');
+
+//list tablehosts
+Route::get('tablehosts','HostsController@index');
+
+//list single tablehost
+Route::get('tablehosts/{id}', 'HostsController@show');
+
+//create new tablehost
+Route::post('tablehosts','HostsController@store');
+
+//update tablehost
+Route::put('tablehosts','HostsController@store');
+
+//delete tablehost
+Route::delete('tablehosts/{id}', 'HostsController@destroy');
+
+//list additionaldomains
+Route::get('additionaldomains','AdditionalDomainsController@index');
+
+//list single tablehost
+Route::get('additionaldomains/{id}', 'AdditionalDomainsController@show');
+
+//create new tablehost
+Route::post('additionaldomains','AdditionalDomainsController@store');
+
+//update tablehost
+Route::put('additionaldomains','AdditionalDomainsController@store');
+
+//delete tablehost
+Route::delete('additionaldomains/{id}', 'AdditionalDomainsController@destroy');
