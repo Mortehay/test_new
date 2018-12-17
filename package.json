@@ -20,6 +20,7 @@
         "vue": "^2.5.17"
     },
     "dependencies": {
-        "vue-image-crop-upload": "^2.5.0"
+        "vue-image-crop-upload": "^2.5.0",
+        "vue-scrollto": "^2.13.0"
     }
 }

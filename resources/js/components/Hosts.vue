@@ -1,6 +1,6 @@
 <template>
     <div>
-        <h2>
+        <h2  id="host-editor">
             Hosts
         </h2>
         <form @submit.prevent="addHost" class="mb-3">
@@ -56,7 +56,7 @@
 
             <button type="submit" class="btn btn-light btn-block">Save</button>
         </form>
-        <nav aria-label="Page navigation example">
+        <nav aria-label="Page navigation example" id="page-navigation">
             <ul class="pagination">
                 <li v-bind:class="[{disabled: !pagination.prev_page_url}]" class="page-item">
                     <a class="page-link" href="#" @click="fetchHosts(pagination.prev_page_url)">Previous</a>
@@ -99,8 +99,8 @@
 
             <hr>
             <!--<button @click="goToEmployees(host)" class="btn btn-primary mb-2">Employees</button>-->
-            <button @click="editHost(host)" class="btn btn-warning mb-2">edit</button>
-            <button @click="deleteHost(host.id)" class="btn btn-danger">delete</button>
+            <button @click="editHost(host)" class="btn btn-warning mb-2" v-scroll-to="{ el: '#host-editor' }">edit</button>
+            <button @click="deleteHost(host.id)" class="btn btn-danger" v-scroll-to="{el : '#page-navigation'}">delete</button>
 
         </div>
     </div>
@@ -211,7 +211,7 @@
                         this.host.comment = '';
                         alert('host added');
                         this.fetchHosts();
-
+                        this.$scrollTo('#page-navigation');
                     })
                     .catch(err => console.log(err));
                 } else {

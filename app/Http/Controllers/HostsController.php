@@ -41,10 +41,12 @@ class HostsController extends Controller
     {
 
         $host = $request->isMethod('put') ? TableHostAccess::findOrFail($request->host_id) : new TableHostAccess;
-        $host->id = $request->input('company_id');
+        $host->id = $request->input('host_id');
         $host->main_name = $request->input('main_name');
         $host->main_name_link = $request->input('main_name_link');
         $host->hosting_type = $request->input('hosting_type');
+        $host->hosting_name = $request->input('hosting_name');
+        $host->hosting_link = $request->input('hosting_link');
         $host->hosting_login = $request->input('hosting_login');
         $host->hosting_pass = $request->input('hosting_pass');
         $host->comment = $request->input('comment');
