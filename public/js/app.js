@@ -49061,7 +49061,7 @@ exports = module.exports = __webpack_require__(4)(false);
 
 
 // module
-exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n", ""]);
+exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n", ""]);
 
 // exports
 
@@ -49277,35 +49277,28 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
       if (this.edit === false) {
         //add
-        axios('/api/tablehosts', {
+        fetch('/api/tablehosts', {
           method: 'post',
           body: JSON.stringify(this.host),
           headers: {
-            'Accept': 'application/json',
             'content-type': 'application/json'
-          },
-          data: this.host
-        })
-        /*'main_name',  'main_name_link', 'hosting_name', 'hosting_link', 'hosting_type', 'hosting_login', 'hosting_pass', 'comment'*/
-        .then(function (response) {
-          console.log(response);
-          this.host.main_name = '';
-          this.host.main_name_link = '';
-          this.host.hosting_name = '';
-          this.host.hosting_link = '';
-          this.host.hosting_type = '';
-          this.host.hosting_login = '';
-          this.host.hosting_pass = '';
-          this.host.comment = '';
-          alert('host added');
-          this.fetchHosts();
-        }).catch(function (err) {
-          if (err.response !== undefined && err.response.status == 422) {
-            _this4.validationErrors = err.response.data.errors;
           }
+        }).then(function (res) {
+          return res.json();
+        }).then(function (data) {
+          _this4.host.main_name = '';
+          _this4.host.main_name_link = '';
+          _this4.host.hosting_name = '';
+          _this4.host.hosting_link = '';
+          _this4.host.hosting_type = '';
+          _this4.host.hosting_login = '';
+          _this4.host.hosting_pass = '';
+          _this4.host.comment = '';
+          alert('host added');
 
-          console.log(err);
-          console.log(_this4.validationErrors);
+          _this4.fetchHosts();
+        }).catch(function (err) {
+          return console.log(err);
         });
       } else {
         //update

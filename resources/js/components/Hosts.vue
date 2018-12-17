@@ -192,42 +192,28 @@
                 console.log(this.host);
                 if(this.edit === false){
                     //add
-                    axios('/api/tablehosts',{
+                    fetch('/api/tablehosts',{
                         method: 'post',
                         body : JSON.stringify(this.host),
                         headers:{
-
-                            'Accept': 'application/json',
                             'content-type':'application/json'
-                        },
-                        data:this.host
+                        }
                     })
-                    /*'main_name',  'main_name_link', 'hosting_name', 'hosting_link', 'hosting_type', 'hosting_login', 'hosting_pass', 'comment'*/
-                        .then(function(response){
-                            console.log(response)
-                            this.host.main_name = '';
-                            this.host.main_name_link = '';
-                            this.host.hosting_name = '';
-                            this.host.hosting_link = '';
-                            this.host.hosting_type = '';
-                            this.host.hosting_login = '';
-                            this.host.hosting_pass = '';
-                            this.host.comment = '';
-                            alert('host added');
-                            this.fetchHosts();
+                    .then(res => res.json())
+                    .then(data =>{
+                        this.host.main_name = '';
+                        this.host.main_name_link = '';
+                        this.host.hosting_name = '';
+                        this.host.hosting_link = '';
+                        this.host.hosting_type = '';
+                        this.host.hosting_login = '';
+                        this.host.hosting_pass = '';
+                        this.host.comment = '';
+                        alert('host added');
+                        this.fetchHosts();
 
-                        })
-
-
-                        .catch(err => {
-                        if(err.response !== undefined && err.response.status == 422){
-                        this.validationErrors = err.response.data.errors;
-                    }
-                    console.log(err);
-                    console.log(this.validationErrors);
-                }
-
-                );
+                    })
+                    .catch(err => console.log(err));
                 } else {
                     //update
                     fetch('/api/tablehosts',{
